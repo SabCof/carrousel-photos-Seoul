@@ -1,12 +1,44 @@
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '74c7b64302msh6e2f03f16df29dbp16af23jsna1e36d6e6ad2',
-		'X-RapidAPI-Host': 'anime-db.p.rapidapi.com'
-	}
-};
+const items = document.querySelectorAll('img');
+const nbSlide = items.length;
+const suivant = document.querySelector('.right');
+const precedent = document.querySelector('.left');
 
-fetch('https://anime-db.p.rapidapi.com/anime?page=1&size=10&search=Fullmetal&genres=Fantasy%2CDrama&sortBy=ranking&sortOrder=asc', options)
-	.then(response => response.json())
-	.then(response => console.log(response))
-	.catch(err => console.error(err));
+let count =0; // 1ere image
+function slideSuivante(){
+	items[count].classList.remove('active'); 
+// on enleve la class active donc l'image va disparaitre
+	if(count < nbSlide - 1){
+		count++;
+	}else{
+		count = 0;
+	};
+
+	items[count].classList.add('active')
+	console.log(count);
+}
+
+suivant.addEventListener('click', slideSuivante);
+
+function slidePrecedente(){
+	items[count].classList.remove('active');
+
+	if(count > 0){
+		count--;
+	}else{
+		count = nbSlide - 1;
+	};
+
+	items[count].classList.add('active')
+
+}
+
+precedent.addEventListener('click', slidePrecedente);
+
+function toucheClavier(e){
+	if(e.keyCode === 37){     //37 numéro de la fleche gauche sur notre clavier
+		slidePrecedente();
+	} else if (e.keyCode === 39){  //39 numéro de la flèche droite sur notre clavier
+		slideSuivante()
+	} 
+}
+document.addEventListener('keydown',toucheClavier)
